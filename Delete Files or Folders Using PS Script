@@ -1,0 +1,21 @@
+# Specify the path to the directory you want to clean up
+$directoryPath = "D:\Application\BIAPI\Logs\Html\GenerateBi_v2"
+
+# Get the current date
+$currentDate = Get-Date
+
+# Calculate the date 60 days ago(Just Modify the 60 Number based on how many days before files/folders should be deleted.)
+$cutOffDate = $currentDate.AddDays(-60)
+
+# Get all files and folders older than 60 days
+$oldItems = Get-ChildItem -Path $directoryPath | Where-Object { $_.LastWriteTime -lt $cutOffDate }
+
+# Delete each old item
+foreach ($item in $oldItems) {
+    Remove-Item -Path $item.FullName -Recurse -Force
+}
+
+Write-Host "Cleanup completed."
+
+
+#Save this script with ps1 extension ,because this script works only with powershell
